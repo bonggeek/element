@@ -14,6 +14,10 @@ type Element struct {
 	name     string
 }
 
+type Elements struct {
+    elementList map[string]Element
+}
+
 func readElement(elementStr string) (Element, error) {
 	splits := strings.Split(elementStr, ",")
 	atNum, err := strconv.ParseUint(splits[0], 10, 32)
@@ -26,7 +30,12 @@ func readElement(elementStr string) (Element, error) {
 	return el, nil
 }
 
-func LoadPeriodicTable(fileName string, elements map[string]Element){
+func (this *Elements) LoadPeriodicTable(fileName string){
+
+    if this.elementList == nil {
+        this.elementList = make(map[string]Element)
+    }
+
 	f, err := os.Open(fileName)
 	if err != nil {
 		panic("failed to open file")
@@ -43,17 +52,18 @@ func LoadPeriodicTable(fileName string, elements map[string]Element){
 			panic("Error!!")
 		}
 
-		elements[strings.ToLower(element.symbol)] = element
+		this.elementList[strings.ToLower(element.symbol)] = element
 	}
+
 }
 
-func getElementsForInnerWord(word string, elements map[string]Element, charCount int) []Element{
+func (this *Elements) getElementsForInnerWord(word string,charCount int) []Element{
 	result := make([]Element, 0)
 	s := string(word[0:charCount])
-	if val, ok := elements[s]; ok {
+	if val, ok := this.elementList[s]; ok {
 		newWord := string(word[charCount:])
 		if len(newWord) > 0 {
-			resultTemp := GetElementsForWord(newWord, elements)
+			resultTemp := this.GetElementsForWord(newWord)
 			if len(resultTemp) > 0 {
 				result = append(result, val)
 				result = append(result, resultTemp...)
@@ -67,16 +77,16 @@ func getElementsForInnerWord(word string, elements map[string]Element, charCount
 }
 
 
-func GetElementsForWord(word string, elements map[string]Element) []Element {
+func (this *Elements) GetElementsForWord(word string) []Element {
 	result := make([]Element, 0)
 	if len(word) > 0 {
 		//fmt.Println("Word:", word)
-		result = getElementsForInnerWord(word, elements, 1)
+		result = this.getElementsForInnerWord(word, 1)
 
 		// So using single char as above didn't work lets see
 		// is a pair of chars will work
 		if len(result) == 0 {
-			result = getElementsForInnerWord(word, elements, 2)
+			result = this.getElementsForInnerWord(word, 2)
 		}
 
 	}
