@@ -85,7 +85,7 @@ func (this *Elements) GetElementsForWord(word string) []Element {
 
 		// So using single char as above didn't work lets see
 		// is a pair of chars will work
-		if len(result) == 0 {
+		if len(result) == 0 && len(word) > 1 {
 			result = this.getElementsForInnerWord(word, 2)
 		}
 
