@@ -63,7 +63,7 @@ func (this *Elements) getElementsForInnerWord(word string,charCount int) []Eleme
 	if val, ok := this.elementList[s]; ok {
 		newWord := string(word[charCount:])
 		if len(newWord) > 0 {
-			resultTemp := this.GetElementsForWord(newWord)
+			resultTemp := this.getElementsForWordWorker(newWord)
 			if len(resultTemp) > 0 {
 				result = append(result, val)
 				result = append(result, resultTemp...)
@@ -77,7 +77,7 @@ func (this *Elements) getElementsForInnerWord(word string,charCount int) []Eleme
 }
 
 
-func (this *Elements) GetElementsForWord(word string) []Element {
+func (this *Elements) getElementsForWordWorker(word string) []Element {
 	result := make([]Element, 0)
 	if len(word) > 0 {
 		//fmt.Println("Word:", word)
@@ -93,4 +93,10 @@ func (this *Elements) GetElementsForWord(word string) []Element {
 
 	return result
 }
+
+func (this *Elements) GetElementsForWord(word string) []Element {
+    word = strings.ToLower(word)
+    return this.getElementsForWordWorker(word)
+}
+
 
