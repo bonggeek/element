@@ -2,10 +2,6 @@ package element
 
 import (
 	"strings"
-	"strconv"
-	"os"
-	"bufio"
-	"fmt"
 )
 
 type Element struct {
@@ -16,45 +12,6 @@ type Element struct {
 
 type Elements struct {
     elementList map[string]Element
-}
-
-func readElement(elementStr string) (Element, error) {
-	splits := strings.Split(elementStr, ",")
-	atNum, err := strconv.ParseUint(splits[0], 10, 32)
-	if err != nil {
-		return Element{}, err
-	}
-
-	el := Element{atNumber: uint(atNum), symbol: splits[1], name: splits[2]}
-
-	return el, nil
-}
-
-func (this *Elements) LoadPeriodicTable(fileName string){
-
-    if this.elementList == nil {
-        this.elementList = make(map[string]Element)
-    }
-
-	f, err := os.Open(fileName)
-	if err != nil {
-		panic("failed to open file")
-	}
-
-	defer f.Close()
-
-	scanner := bufio.NewScanner(f)
-	for scanner.Scan() {
-		line := scanner.Text()
-		element, err := readElement(line)
-		if err != nil {
-			fmt.Println("Failed to parse element", err)
-			panic("Error!!")
-		}
-
-		this.elementList[strings.ToLower(element.symbol)] = element
-	}
-
 }
 
 func (this *Elements) getElementsForInnerWord(word string,charCount int) []Element{
@@ -76,6 +33,16 @@ func (this *Elements) getElementsForInnerWord(word string,charCount int) []Eleme
 	return result
 }
 
+var elements *Elements = newElements()
+func newElements() *Elements{
+	var elements *Elements = new(Elements)
+	elements.elementList = elementList
+	return elements
+}
+
+func GetElements() *Elements{
+	return elements
+}
 
 func (this *Elements) getElementsForWordWorker(word string) []Element {
 	result := make([]Element, 0)
