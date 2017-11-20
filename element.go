@@ -5,9 +5,9 @@ import (
 )
 
 type Element struct {
-	symbol   string
-	atNumber uint
-	name     string
+	Symbol   string
+	AtNumber uint
+	Name     string
 }
 
 type Elements struct {
