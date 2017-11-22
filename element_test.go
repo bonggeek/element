@@ -36,11 +36,20 @@ func TestAllWords(t *testing.T){
 			fmt.Println()
 			fmt.Print(line, " - ")
 			for _, k := range res {
-				fmt.Print(k.symbol, " ")
+				fmt.Print(k.Symbol, " ")
 			}
 		}
 	}
 
 	fmt.Println()
 	fmt.Println("Found words: ", count)
+}
+
+
+func TestAllElements(t *testing.T){
+	e := GetElements()
+	res := e.GetAllElements()
+	if len(res) != 118 {
+		t.Error("Count of elements ")
+	}
 }

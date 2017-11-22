@@ -66,4 +66,14 @@ func (this *Elements) GetElementsForWord(word string) []Element {
     return this.getElementsForWordWorker(word)
 }
 
+func (this *Elements) GetAllElements() []Element{
+	elements := make([]Element, len(elementList))
+	i := 0
+	for _, v := range elementList{
+		elements[i] = v
+		i++
+	}
+
+	return elements
+}
 
