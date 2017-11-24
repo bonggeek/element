@@ -16,7 +16,6 @@ func TestLoadElement(t *testing.T){
 	}
 }
 
-
 func TestAllWords(t *testing.T){
 	e := GetElements()
 	f, err := os.Open("./english.txt")
@@ -52,15 +51,20 @@ func TestAllWords(t *testing.T){
 }
 
 
+func TestSpecificWords(t *testing.T) {
+
+	e:=GetElements()
+	res := e.GetElementsForWord("Prokriti")
+	if len(res) != 5 {
+		t.Errorf("Expected %v got %v", 0, len(res))
+	}
+}
+
 func TestAllElements(t *testing.T){
 	e := GetElements()
-	res := e.GetAllElements(false)
-	if len(res) != 118 {
+	res := e.GetAllElements()
+	if len(res) <= 118 {
 		t.Error("Count of elements ")
 	}
 
-	res = e.GetAllElements(true)
-	if len(res) <= 118 {
-		t.Error("Count of fake elements ")
-	}
 }

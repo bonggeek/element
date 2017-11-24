@@ -8,27 +8,29 @@ type Element struct {
 	Symbol   string
 	AtNumber uint
 	Name     string
+	Real     bool // real or fake element
 }
 
 type Elements struct {
     elementList map[string]Element
-    fakeElementList map[string]Element
 }
 
-func (this *Elements) getElementsForInnerWord(word string,charCount int,useFake bool) []Element{
+func (this *Elements) getElementsForInnerWord(word string,charCount int, useFake bool) []Element{
 	result := make([]Element, 0)
 	s := string(word[0:charCount])
-	var elementList map[string]Element
-	if useFake {
-		elementList = this.fakeElementList
-	} else {
-		elementList = this.elementList
+
+	val, ok := this.elementList[s]
+
+	// If a element was found with the Symbol and it is fake then we cannot use it
+	// if useFake was not passed
+	if ok && !val.Real && !useFake{
+		ok = false
 	}
 
-	if val, ok := elementList[s]; ok {
+	if ok {
 		newWord := string(word[charCount:])
 		if len(newWord) > 0 {
-			resultTemp := this.getElementsForWordWorker(newWord)
+			resultTemp := this.getElementsForWordWorker(newWord, useFake)
 			if len(resultTemp) > 0 {
 				result = append(result, val)
 				result = append(result, resultTemp...)
@@ -45,7 +47,6 @@ var elements *Elements = newElements()
 func newElements() *Elements{
 	var elements *Elements = new(Elements)
 	elements.elementList = elementList
-	elements.fakeElementList = fakeElementList
 	return elements
 }
 
@@ -53,7 +54,7 @@ func GetElements() *Elements{
 	return elements
 }
 
-func (this *Elements) getElementsForWordWorker(word string) []Element {
+func (this *Elements) getElementsForWordWorker(word string, useFake bool) []Element {
 	result := make([]Element, 0)
 	if len(word) > 0 {
 		//fmt.Println("Word:", word)
@@ -65,10 +66,11 @@ func (this *Elements) getElementsForWordWorker(word string) []Element {
 			result = this.getElementsForInnerWord(word, 2, false)
 		}
 
-		// Single and pair didn't work, try with fake elements now
+		// Single and pair didn't work, try with fake elements if required
 		if len(result) == 0 && len(word) > 0 {
-			result = this.getElementsForInnerWord(word, 1, true)
+			result = this.getElementsForInnerWord(word, 1, useFake)
 		}
+
 	}
 
 	return result
@@ -76,28 +78,26 @@ func (this *Elements) getElementsForWordWorker(word string) []Element {
 
 func (this *Elements) GetElementsForWord(word string) []Element {
     word = strings.ToLower(word)
-    return this.getElementsForWordWorker(word)
-}
 
-func (this *Elements) GetAllElements(useFakeElements bool) []Element{
-	nElements := len(elementList)
-	if useFakeElements {
-		nElements = nElements + len(fakeElementList)
+    // First try without any fake elements. E.g. Prokriti get Pr O Kr I Ti
+    // If first pass we attempt fake elements then we get P R O K R I Ti
+    // That is because when we try to generate at P it fails to generate a word for ROKRITI
+    // and starts using fakes. Which succeeds.
+    // But that failure makes the algo split at Pr - OKRITI which generates Pr O Kr I Ti
+    result := this.getElementsForWordWorker(word, false)
+    if len(result) == 0{
+    	result = this.getElementsForWordWorker(word, true)
 	}
 
-	elements := make([]Element, nElements)
+	return result
+}
 
+func (this *Elements) GetAllElements() []Element{
+	elements := make([]Element, len(elementList))
 	i := 0
 	for _, v := range elementList{
 		elements[i] = v
 		i++
-	}
-
-	if useFakeElements {
-		for _,v := range fakeElementList {
-			elements[i] = v
-			i++
-		}
 	}
 
 	return elements
