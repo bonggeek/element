@@ -120,3 +120,18 @@ var elementList = map[string]Element{
 	"ts": {"Ts", 117, "Tennessine"},
 	"og": {"Og", 118, "Oganesson"},
 }
+
+var fakeElementList = map[string]Element{
+	"a": {"A", 119, "Arbitrarium"},
+	"d": {"D", 120, "Doubtium"},
+	"e": {"E", 121, "Exoticium"},
+	"g": {"G", 122, "Grandiosium"},
+	"j": {"J", 123, "Jocerium"},
+	"l": {"L", 124, "Loverium"},
+	"m": {"M", 125, "Magicinium"},
+	"q": {"Q", 126, "Queenium"},
+	"r": {"R", 127, "Royalium"},
+	"t": {"T", 128, "Techium"},
+	"x": {"X", 129, "Misterium"},
+	"z": {"Z", 130, "Zanthium"},
+}
