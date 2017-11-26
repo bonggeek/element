@@ -57,20 +57,15 @@ func GetElements() *Elements{
 func (this *Elements) getElementsForWordWorker(word string, useFake bool) []Element {
 	result := make([]Element, 0)
 	if len(word) > 0 {
-		//fmt.Println("Word:", word)
-		result = this.getElementsForInnerWord(word, 1, false)
-
-		// So using single char as above didn't work lets see
-		// is a pair of chars will work
-		if len(result) == 0 && len(word) > 1 {
-			result = this.getElementsForInnerWord(word, 2, false)
+		// First try with 2 char elements
+		if len(word) > 1 {
+			result = this.getElementsForInnerWord(word, 2, useFake)
 		}
 
-		// Single and pair didn't work, try with fake elements if required
-		if len(result) == 0 && len(word) > 0 {
+		// didn't find anything, so try with single char elements
+		if len(result) == 0 {
 			result = this.getElementsForInnerWord(word, 1, useFake)
 		}
-
 	}
 
 	return result
