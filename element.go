@@ -9,6 +9,8 @@ type Element struct {
 	AtNumber uint
 	Name     string
 	Real     bool // real or fake element
+	Properties string
+	Description string
 }
 
 type Elements struct {
