@@ -3,14 +3,14 @@ package element
 // nobel --> reactive-no
 
 var elementList = map[string]Element{
-	"h":  {"H", 1, "Hydrogen", true, "light,reactive,charged,no-hurt,metal-no,rare-no", "Simple at heart and light in your mood. You bond to things easily and love being around people."},
-	"he": {"He", 2, "Helium", true, "light,reactive-no", "You are light and nobel at heart and rarely react to anything. You float above everything."},
+	"h":  {"H", 1, "Hydrogen", true, "light,reactive,charged,metal-no,rare-no", "Simple at heart and light in your mood. You bond to things easily and love being around people."},
+	"he": {"He", 2, "Helium", true, "light,reactive-no", "Light and nobel at heart you rarely react. You soar above everything."},
 	"li": {"Li", 3, "Lithium", true, "reactive-hi,metal", "You barely react to others. You are light at heart and float above all pettiness."},
-	"be": {"Be", 4, "Beryllium", true, "", ""},
-	"b":  {"B", 5, "Boron", true, "", ""},
-	"c":  {"C", 6, "Carbon", true, "", ""},
-	"n":  {"N", 7, "Nitrogen", true, "", ""},
-	"o":  {"O", 8, "Oxygen", true, "", ""},
+	"be": {"Be", 4, "Beryllium", true, "metal,reactive-lo,rare", "You are strong and impart strength to others. A symbol of strength and stability and rarely get angry"},
+	"b":  {"B", 5, "Boron", true, "rare", "You make a great freind and bond well with others who are like you. You rarely have a meltdown."},
+	"c":  {"C", 6, "Carbon", true, "", "You are one of a kind, you make everything come alive. You can be the softest person or the hardest. Extremely good in making friends."},
+	"n":  {"N", 7, "Nitrogen", true, "", "You rarely react to others, but when hanging out with your friends you can be hilarious."},
+	"o":  {"O", 8, "Oxygen", true, "", "You react violently with others. Even though people take little notice of you, you are the life of any party you attend."},
 	"f":  {"F", 9, "Fluorine", true, "", ""},
 	"ne": {"Ne", 10, "Neon", true, "", ""},
 	"na": {"Na", 11, "Sodium", true, "", ""},
