@@ -1,23 +1,22 @@
-
 package element
 
 import (
-	"strings"
-	"testing"
-	"os"
 	"bufio"
 	"fmt"
+	"os"
+	"strings"
+	"testing"
 )
 
-func TestLoadElement(t *testing.T){
+func TestLoadElement(t *testing.T) {
 	e := GetElements()
 
-	if(e == nil) {
+	if e == nil {
 		t.Error("Expected not nil elements")
 	}
 }
 
-func TestAllWords(t *testing.T){
+func TestAllWords(t *testing.T) {
 	e := GetElements()
 	f, err := os.Open("./english.txt")
 	if err != nil {
@@ -52,17 +51,16 @@ func TestAllWords(t *testing.T){
 	fmt.Println("Not Found words: ", notFoundCount)
 }
 
-
 func TestSpecificWords(t *testing.T) {
 
-	e:=GetElements()
+	e := GetElements()
 	res := e.GetElementsForWord("Prokriti")
 	if len(res) != 5 {
 		t.Errorf("Expected %v got %v", 0, len(res))
 	}
 }
 
-func TestAllElements(t *testing.T){
+func TestAllElements(t *testing.T) {
 	e := GetElements()
 	res := e.GetAllElements()
 	if len(res) <= 118 {
@@ -71,53 +69,53 @@ func TestAllElements(t *testing.T){
 
 }
 
-func TestAllElementTags(t *testing.T){
+func TestAllElementTags(t *testing.T) {
 	elements := GetElements().GetAllElements()
 	validProperties := map[string]bool{
-		"adaptable": true,
-		"attractive": true,
-		"available": true,
-		"bold": true,
-		"brilliant": true,
-		"creative": true,
+		"adaptable":   true,
+		"attractive":  true,
+		"available":   true,
+		"bold":        true,
+		"brilliant":   true,
+		"creative":    true,
 		"cooperative": true,
-		"colorful": true,
-		"complex": true,
-		"dependable": true,
-		"earthy": true,
-		"explosive": true,
-		"fickle": true,
-		"fair": true,
-		"generous": true,
-		"honest": true,
-		"lovable": true,
-		"modest": true,
-		"noble": true,
-		"rich": true,
-		"solid": true,
-		"simple": true,
-		"toxic": true,
+		"colorful":    true,
+		"complex":     true,
+		"dependable":  true,
+		"earthy":      true,
+		"explosive":   true,
+		"fickle":      true,
+		"fair":        true,
+		"generous":    true,
+		"honest":      true,
+		"lovable":     true,
+		"modest":      true,
+		"noble":       true,
+		"rich":        true,
+		"solid":       true,
+		"simple":      true,
+		"toxic":       true,
 	}
 	validPropWeight := map[string]bool{
 		"lo": true,
 		"hi": true,
 	}
 
-	for _,e := range elements{
+	for _, e := range elements {
 		// TODO: Some elements properties are still not set
 		if len(e.Properties) > 0 {
 			props := strings.Split(e.Properties, ",")
-			for _,prop := range props{
+			for _, prop := range props {
 				ind := strings.Split(prop, "-")
-				if len(ind) < 2{
+				if len(ind) < 2 {
 					t.Errorf("Failed on %v(%v) for %v", e.Name, e.AtNumber, ind)
 				} else {
 					if !validProperties[ind[0]] {
 						t.Errorf("%v(%v) => %v is not a valid property", e.Name, prop, ind[0])
 					}
-					
-					if !(validPropWeight[ind[1]]){
-						t.Errorf("%v(%v) => %v is not a valid property weight", e.Name, prop,  ind[1])
+
+					if !(validPropWeight[ind[1]]) {
+						t.Errorf("%v(%v) => %v is not a valid property weight", e.Name, prop, ind[1])
 					}
 				}
 			}
